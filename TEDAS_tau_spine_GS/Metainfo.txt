@@ -32,9 +32,7 @@ Author: Alla Petukhina
 Submitted:  by Alla Petukhina
 
 Subfunction:
-- LCARE_Test_Statistics_LR
-- LCARE_Estimation_Loglik
-- LCARE_Loglik
+- qrRho.m
 
 Datafile : 
 - GS_Ret.mat
