@@ -17,14 +17,8 @@ wwidth       = 120; %moving window width
 
 tau          = []; %set of quantile indices
 tauall       = [];
-% cap{wwidth}  = 1; 
-% capp(wwidth) = 1;
-% cappp        = [];
-% lllall       = [];
-% llall        = [];
-% INDEXall     = [];
-% TAUall       = [];
-tshift       = 0;
+
+gshift       = 0;
 
 % Create matrix of tau-spines
 a = 0.5 %
@@ -42,7 +36,7 @@ x = linspace(0,1,(m+1));
     
 %% TEDAS Naive    
  
-for t = 1:10
+for g = 1:10
     clear cap capp cappp VaR
     cap{wwidth}  = 1; 
     capp(wwidth) = 1;
@@ -53,7 +47,7 @@ for t = 1:10
     lll          = [];
     ll           = [];
     TAU          = [];
-    tau          = tauall(n, 2:end);
+    tau          = tauall(g, 2:end);
     num_digw     = 4; 
     BETA         = [];
     for l = wwidth:size(FUNDS,1)
@@ -461,7 +455,7 @@ for t = 1:10
             end
             BETA      = [BETA,BETAFIN];
             lll       = [lll,l];
-            INDEX{t}  = ind;
+            INDEX{g}  = ind;
             TAU       = [TAU, tau_i]; 
             wshift = wshift + 1
             
@@ -470,16 +464,16 @@ for t = 1:10
     
     end
     
-    TAUSPINE(t).TAULEV = tau;        % Tau-spine grids
-    TAUSPINE(t).lll    = lll;        % indeces for days TEDAS portfolio rebalancing 
-    TAUSPINE(t).ll     = ll;         % indeces for days stay-in-cash rebalancing 
-    TAUSPINE(t).CAPN   = [1, cappp]; % final cumulative return vector for TEDAS Naive
-    TAUSPINE(t).TAU    = TAU;        % vector of probability levels on every moving window
-    TAUSPINE(t).INDEX  = INDEX;      % matrix of stocks indeces for portfolio constrruction
-    TAUSPINE(t).BETA   = BETA;       % matrix of ALQR beta-coefficients
-    TAUSPINE(t).NUMLAM = NUMLAM;     % lambdas' vector
+    TAUSPINE(g).TAULEV = tau;        % Tau-spine grids
+    TAUSPINE(g).lll    = lll;        % indeces for days TEDAS portfolio rebalancing 
+    TAUSPINE(g).ll     = ll;         % indeces for days stay-in-cash rebalancing 
+    TAUSPINE(g).CAPN   = [1, cappp]; % final cumulative return vector for TEDAS Naive
+    TAUSPINE(g).TAU    = TAU;        % vector of probability levels on every moving window
+    TAUSPINE(g).INDEX  = INDEX;      % matrix of stocks indeces for portfolio constrruction
+    TAUSPINE(g).BETA   = BETA;       % matrix of ALQR beta-coefficients
+    TAUSPINE(g).NUMLAM = NUMLAM;     % lambdas' vector
     
-    tshift    = tshift + 1  
+    gshift    = gshift + 1  
 end
 
  
@@ -495,9 +489,7 @@ for i = wwidth:size(IND,1)
     sigma       = std(IND(1:i,:));
     skewn       = skewness(IND(1:i,:));
     kurt        = kurtosis(IND(1:i,:));
-    %calculating the S&P500 position VaR
     
-    VaR         = sum(INDCAP(i))*( - (z + (1/6)*(z^2-1)*skewn+(1/24)*(z^3-3*z)*(kurt-3)-(1/36)*(2*z^3-5*z)*skewn^2)*sigma);
     INDCAP(i+1) = INDCAP(i)*(1+IND(i));
     indcaplast  = INDCAP(i+1);
     INDCAPIT    = [INDCAPIT,indcaplast];    
@@ -524,101 +516,39 @@ color10 = [0.47843137383461 0.062745101749897 0.894117653369904];
 Rainbow = [color1; color2; color3; color4; color5; color6; color7; ...
           color8; color9; color10];
 
-figure
 
 
- 
-
-figure 
-set(gca, 'ColorOrder', Rainbow);
-
-hold all;
-% set(gca, 'ColorOrder', ColorSet);
-% 
-% hold all;
-for m = 1:10
-surf([1 2],[1:74],  TAUSPINE(1).CAPN CAPNMFall ([1 1], :)', 'LineStyle','none', 'FaceColor', color1)
-axis([0 22 0 74 0.9 5])
-end
-
-surf([1:74],[1 2], CAPNMFall ([1 1], :), 'LineStyle','none', 'FaceColor', color1)
+surf([1:74], [1 2],     TAUSPINE(1).CAPN([1 1], :), 'LineStyle','none', 'FaceColor', color1)
 axis([0 74 0 22 0.9 5])
 hold on
-surf([1:74],[3 4], CAPNMFall ([2 2], :),'LineStyle','none',  'FaceColor',color2)
-surf([1:74],[5 6], CAPNMFall ([3 3], :), 'LineStyle','none',   'FaceColor',color3)
-surf([1:74],[7 8], CAPNMFall ([4 4], :), 'LineStyle','none',  'FaceColor',color4)
-surf([1:74],[9 10], CAPNMFall ([5 5], :), 'LineStyle','none',  'FaceColor',color5)
-surf([1:74],[11 12], CAPNMFall ([6 6], :), 'LineStyle','none',  'FaceColor',color6)
-surf([1:74],[13 14], CAPNMFall ([7 7], :),'LineStyle','none',   'FaceColor',color7)
-surf([1:74],[15 16], CAPNMFall ([8 8], :),'LineStyle','none',   'FaceColor',color8)
-surf([1:74],[17 18], CAPNMFall ([9 9], :), 'LineStyle','none',  'FaceColor',color9)
-surf([1:74],[19 20], CAPNMFall ([10 10], :), 'LineStyle','none',  'FaceColor',color10)
-surf([1:74],[21 22], CAPNMFall ([11 11], :), 'LineStyle','none',  'FaceColor',[0 0 0])
+surf([1:74], [3 4],   TAUSPINE(2).CAPN([1 1], :),  'LineStyle', 'none',  'FaceColor',color2)
+surf([1:74], [5 6],   TAUSPINE(3).CAPN([1 1], :),  'LineStyle', 'none',   'FaceColor',color3)
+surf([1:74], [7 8],   TAUSPINE(4).CAPN([1 1], :),  'LineStyle', 'none',  'FaceColor',color4)
+surf([1:74], [9 10],  TAUSPINE(5).CAPN([1 1], :),  'LineStyle', 'none',  'FaceColor',color5)
+surf([1:74], [11 12], TAUSPINE(6).CAPN([1 1], :),  'LineStyle', 'none',  'FaceColor',color6)
+surf([1:74], [13 14], TAUSPINE(7).CAPN([1 1], :),  'LineStyle', 'none',   'FaceColor',color7)
+surf([1:74], [15 16], TAUSPINE(8).CAPN([1 1], :),  'LineStyle', 'none',   'FaceColor',color8)
+surf([1:74], [17 18], TAUSPINE(9).CAPN([1 1], :),  'LineStyle', 'none',  'FaceColor',color9)
+surf([1:74], [19 20], TAUSPINE(10).CAPN([1 1], :), 'LineStyle', 'none',  'FaceColor',color10)
+surf([1:74], [21 22], INDCAPITST ([1 1], :),       'LineStyle', 'none',  'FaceColor',[0 0 0])
 hold off
 
-figure
-%set(0,'DefaultAxesColorOrder',rainbow)
-% surf(CAPNRET')
-% axis([0 10 0 7 -0.15 0.15])
-%surface(CAPNRET')
-
-surf([1 2],[1:74], CAPNMFall ([1 1], :)', 'LineStyle','none', 'FaceColor', color1)
-axis([0 22 0 74 0.9 5])
-hold on
-surf([3 4],[1:74], CAPNMFall ([2 2], :)', 'LineStyle','none', 'FaceColor', color2)
-surf([5 6],[1:74], CAPNMFall ([3 3], :)', 'LineStyle','none', 'FaceColor',color3)
-surf([7 8],[1:74], CAPNMFall ([4 4], :)', 'LineStyle','none', 'FaceColor',color4)
-surf([9 10],[1:74], CAPNMFall ([5 5], :)', 'LineStyle','none', 'FaceColor',color5)
-surf([11 12],[1:74], CAPNMFall ([6 6], :)','LineStyle','none',  'FaceColor',color6)
-surf([13 14],[1:74], CAPNMFall ([7 7], :)','LineStyle','none',  'FaceColor',color7)
-surf([15 16],[1:74], CAPNMFall ([8 8], :)','LineStyle','none',  'FaceColor',color8)
-surf([17 18],[1:74], CAPNMFall ([9 9], :)', 'LineStyle','none', 'FaceColor',color9)
-surf([19 20],[1:74], CAPNMFall ([10 10], :)','LineStyle','none',  'FaceColor',color10)
-surf([21 22],[1:74], CAPNMFall ([11 11], :)', 'LineStyle','none',  'FaceColor',[0 0 0])
 
 
    % Plot of tau-spines
 
-lineThick = 3;
-   
+lineThick = 2;
+
+
 figure 
 set(gca, 'ColorOrder', Rainbow);
-
+hold all 
 plot(x(1:end),tauall,'Marker','o', 'LineWidth',lineThick)
 
 xlabel('X'), ylabel('Tau'); 
    
 
 
-%% DELETE
 
-  % TAU collection
-   clear TAU taugr
-   TAU     = [];
-   for l=lll
-      
-      if IND(l) <= quantile(IND(1+wshift:l,:),0.15)&& IND(l) > quantile(IND(1+wshift:l,:),0.05)
-        tau_i = ksdensity(Y,IND(l),'function','cdf');
-        tau_i = round(tau_i.*(10^2))./(10^2);
-             
-      ishift        =  ishift + 1    
-      end
-      TAU     = [TAU;taugr];
-   end    
-
-   
-%creating input data for the number of selected variables
-%plots
-  indc05 = 1:5:size(BETA,2)-4;
-  indc15 = 2:5:size(BETA,2)-3;
-  indc25 = 3:5:size(BETA,2)-2;
-  indc35 = 4:5:size(BETA,2)-1;
-  indc50 = 5:5:size(BETA,2)-0;
-  
-  BETA05 = BETA(:,indc05);
-  BETA15 = BETA(:,indc15);
-  BETA25 = BETA(:,indc25);
-  BETA35 = BETA(:,indc35);
-  BETA50 = BETA(:,indc50);
   
   
