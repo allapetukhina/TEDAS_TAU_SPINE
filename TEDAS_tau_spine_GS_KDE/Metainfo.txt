@@ -1,0 +1,45 @@
+Name of Quantlet : TEDAS_tau_spine_GS_KDE
+
+Published in : TEDAS
+
+Description: 'Estimates the cumulative return TEDAS Naive strategy based kernel density quantile estimator
+(Gaussian kernel, Silverman rule-of-thumb bandwidth) for German equity market based on weekly returns from Dec2012 till Dec2014'
+
+Keywords:
+- asset
+- dax
+- L1-norm penalty
+- dynamic 
+- portfolio
+- variable selection
+- quantile
+- quantile regression
+- LASSO
+
+See also: 
+
+- TEDAS_strategies
+- TEDASstrategies2
+- TEDAS_gestalts
+- TEDAS_hf_acfs	
+- TEDAS_perform
+- TEDAS_tau_spine_MF
+- TEDAS_tau_spine_GS
+
+
+Author: Alla Petukhina
+
+Submitted:  by Alla Petukhina
+
+Subfunction: 
+- qrRho.m
+- L1QR.m
+
+Datafile : 
+- GS_Ret.mat
+- GS_Tick.mat
+- CAPNall.mat
+
+
+Example : 
+- Plot "Cumulative return: German equity sample"
