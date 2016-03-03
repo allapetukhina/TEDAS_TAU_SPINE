@@ -1,0 +1,42 @@
+Name of Quantlet: LCARE_Test_Statistics_Th1_001
+
+Published in: LCARE
+
+Description: 'Evaluates the likelihood ratio test statistics for
+parameter constellation theta1 and expectile leve 0.01'
+
+Keywords:
+- estimation
+- time-series
+- process
+- data
+- basis
+- model   
+- risk
+- parameter
+- likelihood ration
+- likelihood
+- integration
+
+See also: 
+- LCARE_Test_Statistics_Th1_005
+- LCARE_Test_Statistics_Th2_005
+- LCARE_Test_Statistics_Th2_001
+- LCARE_Test_Statistics_Th3_001
+- LCARE_Test_Statistics_Th3_005
+
+Author: Andrija Mihoci, Xiu Xu
+
+Submitted:  Fri, November 13 2015 by Xiu Xu
+
+Subfunction:
+- LCARE_Test_Statistics_LR
+- LCARE_Estimation_Loglik
+- LCARE_Loglik
+
+Datafile : 
+- CARE_Intervals
+- y_t_001_Th1
+
+Output:
+- T_k_Th1_001
