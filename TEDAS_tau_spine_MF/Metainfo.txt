@@ -1,0 +1,44 @@
+Name of Quantlet : TEDAS_tau_spine_MF
+
+Published in : TEDAS
+
+Description: 'Estimates the cumulative return TEDAS Naive strategy with 10 different tau-spines for Mutual funds market
+based on monthly returns from Jan1998 till Dec2013'
+
+Keywords:
+- asset
+- index
+- L1-norm penalty
+- dynamic 
+- portfolio
+- variable selection
+- quantile
+- quantile regression
+- LASSO
+
+See also: 
+
+- TEDAS_strategies
+- TEDASstrategies2
+- TEDAS_gestalts
+- TEDAS_hf_acfs	
+- TEDAS_perform
+- TEDAS_tau_spine_MF
+- TEDAS_tau_spine_GS_KDE
+
+
+Author: Alla Petukhina
+
+Submitted:  by Alla Petukhina
+
+Subfunction:
+- qrRho.m
+
+Datafile : 
+- MF_Ret.mat
+- MF_Tick.mat
+
+
+Example : 
+- Plot "Tau-spine generation"
+- Plot "Cumulative return: Mutual funds' sample"
